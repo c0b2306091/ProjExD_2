@@ -8,7 +8,7 @@ DELTA = {
     pg.K_UP:(0,-5),
     pg.K_DOWN:(0,+5),
     pg.K_LEFT:(-5,0),
-    pg.KRIGHT:(+5,0),
+    pg.K_RIGHT:(+5,0),
 }
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
@@ -29,6 +29,7 @@ def main():
         screen.blit(bg_img, [0, 0]) 
 
         key_lst = pg.key.get_pressed()
+        sum_mv=[0,0]
         for k,v in DELTA.items():
             if key_lst[k]:
                 sum_mv[0] += v[0]

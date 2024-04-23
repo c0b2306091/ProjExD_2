@@ -14,7 +14,7 @@ DELTA = {
     pg.K_RIGHT:(+5,0),
 }
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
-
+#BGM再生（独自昨日）
 def alarm():
     pygame.mixer.init(frequency = 44100)    # 初期設定
     pygame.mixer.music.load("なんでしょう？.mp3")     # 音楽ファイルの読み込み
@@ -111,6 +111,7 @@ def main():
         pg.display.update()
         tmr += 1
         clock.tick(50)
+        alarm()
 
 
 if __name__ == "__main__":

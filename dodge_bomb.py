@@ -19,11 +19,6 @@ def alarm():
     pygame.mixer.init(frequency = 44100)    # 初期設定
     pygame.mixer.music.load("なんでしょう？.mp3")     # 音楽ファイルの読み込み
     pygame.mixer.music.play(1)              # 音楽の再生回数(1回)
-    while(1):
-        a = input("Finish? --->")
-        if(a is 'y'): break
-    pygame.mixer.music.stop()               # 再生の終了
-    return 0
 
 def check_bound(obj_rct):
     """

@@ -1,6 +1,7 @@
 import os
 import random
 import sys
+import time
 import pygame as pg
 
 
@@ -14,6 +15,11 @@ DELTA = {
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 def check_bound(obj_rct):
+    """
+    こうかとんRect，または，爆弾Rectの画面内外判定用の関数
+    引数：こうかとんRect，または，爆弾Rect
+    戻り値：横方向判定結果，縦方向判定結果（True：画面内／False：画面外）
+    """
     yoko, tate = True, True
     if obj_rct.left < 0 or WIDTH < obj_rct.right: 
         yoko = False
@@ -33,6 +39,18 @@ def main():
     pg.draw.circle(bd_img,(255,0,0),(10,10),10)
     bd_rct=bd_img.get_rect()
     bd_rct.center = random.randint(0,WIDTH),random.randint(0,HEIGHT)
+    #ゲームオーバー画面
+    black_img = pg.surface((WIDTH,HEIGHT)) #黒画面
+    pg.draw.rect(black_img,(0),(0,0,WIDTH,HEIGHT))
+    black_img.set_alpha(163)
+    black_rct=black_img.get_rect()
+    black_rct.center = WIDTH/2, HEIGHT/2
+    go_kkR_img = pg.transform.rotozoom(pg.image.load("fig/2.png"), 0, 2.0)
+    go_kkL_img = pg.transform.flip(go_kkR_img,True,False) #画像反転
+
+    fonto = pg.font.Font(None,100) 
+    txt = fonto.render("Game Over",True,(0))
+
     vx,vy = +5,+5
     clock = pg.time.Clock()
     tmr = 0
@@ -40,8 +58,14 @@ def main():
         for event in pg.event.get():
             if event.type == pg.QUIT: 
                 return
-        if kk_rct.colliderect(bd_rct):
-            print("Game Over")
+        if kk_rct.colliderect(bd_rct): #工科豚と爆弾の衝突
+            #ゲームオーバー画面
+            screen.blit(black_img,black_rct)
+            screen.blit(txt,[WIDTH/2 - 170, HEIGHT/2 - 40])
+            screen.blit(go_kkR_img, (500,370))
+            screen.blit(go_kkL_img, (1050,370))
+            pg.display.update()
+            time.sleep(5)
             return
         screen.blit(bg_img, [0, 0]) 
 
@@ -69,9 +93,9 @@ def main():
         bd_rct.move_ip(vx, vy)       
         screen.blit(bd_img, bd_rct)
         yoko,tate=check_bound(bd_rct)
-        if not yoko:
+        if not yoko: #横方向のはみ出し
             vx *= -1
-        if not tate:
+        if not tate:　#縦方向のはみ出し
             vy *= -1
         pg.display.update()
         tmr += 1

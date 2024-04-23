@@ -3,6 +3,7 @@ import random
 import sys
 import time
 import pygame as pg
+import pygame
 
 
 WIDTH, HEIGHT = 1600, 900
@@ -13,6 +14,16 @@ DELTA = {
     pg.K_RIGHT:(+5,0),
 }
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
+def alarm():
+    pygame.mixer.init(frequency = 44100)    # 初期設定
+    pygame.mixer.music.load("なんでしょう？.mp3")     # 音楽ファイルの読み込み
+    pygame.mixer.music.play(1)              # 音楽の再生回数(1回)
+    while(1):
+        a = input("Finish? --->")
+        if(a is 'y'): break
+    pygame.mixer.music.stop()               # 再生の終了
+    return 0
 
 def check_bound(obj_rct):
     """
@@ -95,7 +106,7 @@ def main():
         yoko,tate=check_bound(bd_rct)
         if not yoko: #横方向のはみ出し
             vx *= -1
-        if not tate:　#縦方向のはみ出し
+        if not tate: #縦方向のはみ出し
             vy *= -1
         pg.display.update()
         tmr += 1
